@@ -60,13 +60,15 @@ curl "$url/_design/scratch" \
   -H destination:'_design/app'$rev
 
 
-
 rev=$(curl -k "$u"/_design/_auth | json _rev)
 if [ "$rev" != "" ]; then
   rev="?rev=$rev"
 fi
 auth="$(node -pe 'require("url").parse(process.argv[1]).auth || ""' "$u")"
 url="$(node -pe 'u=require("url");p=u.parse(process.argv[1]);delete p.auth;u.format(p)' "$u")"
+if [ "$auth" != "" ]; then
+  auth=(-u "$auth")
+fi
 
 curl "$url/_design/scratch" \
   "${auth[@]}" \
