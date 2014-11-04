@@ -54,7 +54,6 @@ if [ "$auth" != "" ]; then
 fi
 
 curl "$url/_design/scratch" \
-  "${auth[@]}" \
   -k \
   -X COPY \
   -H destination:'_design/app'$rev
@@ -69,7 +68,6 @@ auth="$(node -pe 'require("url").parse(process.argv[1]).auth || ""' "$u")"
 url="$(node -pe 'u=require("url");p=u.parse(process.argv[1]);delete p.auth;u.format(p)' "$u")"
 
 curl "$url/_design/scratch" \
-  "${auth[@]}" \
   -k \
   -X COPY \
   -H destination:'_design/_auth'$rev
